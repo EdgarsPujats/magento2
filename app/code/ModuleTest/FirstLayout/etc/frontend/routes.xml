@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+    <router id="standard">
+        <route id="moduletest_firstlayout" frontName="moduletest">
+            <module name="ModuleTest_FirstLayout" />
+        </route>
+    </router>
+</config>
