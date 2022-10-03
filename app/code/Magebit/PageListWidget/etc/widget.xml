@@ -1,35 +1,32 @@
 <widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
     <widget class="Magebit\PageListWidget\Block\Widget\PageList" id="magebit_pagelistwidget_pagelist">
-        <label>Name of widget</label>
-        <description>description of widget</description>
-
-<!--        A list of widget's options-->
+        <label translate="true">CMS Page List</label>
+        <description translate="true">Display either all or selected CMS pages in a list</description>
         <parameters>
             <parameter name="title" xsi:type="text" required="false" visible="true" sort_order="10">
-                <label>Title</label>
+                <label translate="true">Title</label>
             </parameter>
 
-            <parameter name="size" xsi:type="select" visible="true" required="true" sort_order="20">
-                <label translate="true">Size</label>
+            <parameter name="display_mode" xsi:type="select" required="true" visible="true" sort_order="20">
+                <label translate="true">Display Mode</label>
                 <options>
-                    <option name="s" value="S">
-                        <label>S</label>
+                    <option name="all_pages" value="0" selected="true">
+                        <label translate="true">All Pages</label>
                     </option>
-                    <option name="m" value="M" selected="true">
-                        <label>M</label>
-                    </option>
-                    <option name="l" value="L">
-                        <label>L</label>
+                    <option name="specific_pages" value="1">
+                        <label translate="true">Specific Pages</label>
                     </option>
                 </options>
             </parameter>
 
+            <parameter name="selected_pages" xsi:type="multiselect" required="true" visible="true" sort_order="30"
+                       source_model="Magebit\PageListWidget\Model\Config\Source\CmsPageList">
+                <label translate="true">Selected Pages</label>
+                <depends>
+                    <parameter name="display_mode" value="1"/>
+                </depends>
+            </parameter>
         </parameters>
-
-<!--        A list of layout containers, where the widget may be injected-->
-<!--        <containers>-->
-<!--            ...-->
-<!--        </containers>-->
     </widget>
 </widgets>

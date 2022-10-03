@@ -1,0 +1,12 @@
+<?php
+/** \Magebit\PageListWidget\Block\Widget\PageList $block */
+?>
+<h3><?= $escaper->escapeHtml($block->getData('title')) ?></h3>
+<ul>
+    <?php foreach ($block->getCmsPageLinks() as $page): ?>
+        <a href="<?= $escaper->escapeUrl($block->getCmsPageLinkUrl((int)$page->getId())) ?>">
+            <?= $escaper->escapeHtml($page->getTitle()) ?>
+        </a>
+        <br>
+    <?php endforeach; ?>
+</ul>
