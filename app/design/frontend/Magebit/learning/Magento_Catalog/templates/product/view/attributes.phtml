@@ -1,0 +1,29 @@
+<?php
+/**
+ * Product additional attributes template
+ * @var $block Attributes
+ */
+
+use Magento\Catalog\Block\Product\View\Attributes;
+
+$_helper = $this->helper(Magento\Catalog\Helper\Output::class);
+$_product = $block->getProduct();
+$description = $_product->getData('short_description');
+?>
+
+<?php try {
+    if ($_additional = $block->getAdditionalData()) : ?>
+        <div class="product-description">
+            <ul>
+                <?php foreach (array_slice($_additional, 0, 3) as $_data) : ?>
+                    <li>
+                        <strong><?= $escaper->escapeHtmlAttr($_data['label']) ?>: </strong>
+                        <?= $_helper->productAttribute($_product, $_data['value'], $_data['code']) ?>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+            <?= $escaper->escapeHtml($description) ?>
+        </div>
+    <?php endif;
+} catch (\Magento\Framework\Exception\LocalizedException $e) {
+} ?>

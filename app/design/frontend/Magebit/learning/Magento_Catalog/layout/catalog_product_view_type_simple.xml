@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+
+        <!--        removing from layout -->
+        <referenceContainer name="product.info.extrahint" remove="true"/>
+        <referenceContainer name="product.info.type" remove="true"/>
+        <referenceContainer name="product.info.description" remove="true"/>
+        <referenceContainer name="product.info.overview" remove="true"/>
+
+        <!--        limit product card count -->
+        <referenceBlock name="product.info.upsell">
+            <action method="setItemLimit">
+                <argument name="type" xsi:type="string">upsell</argument>
+                <argument name="limit" xsi:type="string">3</argument>
+            </action>
+        </referenceBlock>
+
+        <referenceBlock name="catalog.product.related">
+            <action method="setItemLimit">
+                <argument name="type" xsi:type="string">related</argument>
+                <argument name="limit" xsi:type="string">5</argument>
+            </action>
+        </referenceBlock>
+
+        <!-- moving -->
+        <move element="product.attributes" destination="product.info.main" after="product.info.price"/>
+        <move element="product.info.upsell" destination="product.info.main" after="-"/>
+        <move element="catalog.product.related" destination="content" before="product.info.details"/>
+
+    </body>
+</page>

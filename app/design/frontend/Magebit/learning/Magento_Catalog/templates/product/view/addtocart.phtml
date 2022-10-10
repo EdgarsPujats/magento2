@@ -1,0 +1,69 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var $block View */
+
+use Magento\Catalog\Block\Product\View;
+use Magento\Framework\App\ObjectManager;
+
+?>
+<?php $_product = $block->getProduct(); ?>
+<?php $buttonTitle = __('Add to Cart'); ?>
+<?php $objectManager = ObjectManager::getInstance(); ?>
+<?php $StockState = $objectManager->get('\Magento\CatalogInventory\Api\StockStateInterface'); ?>
+<?php $stockQuantityCount = $StockState->getStockQty($_product->getId(), $_product->getStore()->getWebsiteId()); ?>
+
+<?php if ($_product->isSaleable()) : ?>
+    <div class="box-tocart">
+        <div class="fieldset">
+            <?php if ($block->shouldRenderQuantity()) : ?>
+                <div id="quantity-counter" data-bind="scope: 'number-counter'">
+                    <!-- ko template: getTemplate() --><!-- /ko -->
+                    <div class="items-in-stock">
+                        <img
+                            src="<?= $escaper->escapeUrl($block->getViewFileUrl('Magento_Catalog::images/check.svg')) ?>"
+                            alt="checkmark"/>
+                        <strong>IN STOCK</strong>
+                        &nbsp;<?= $stockQuantityCount ?>
+                        &nbsp;items available
+                    </div>
+                </div>
+            <?php endif; ?>
+            <div class="actions">
+                <button type="submit"
+                        title="<?= $escaper->escapeHtmlAttr($buttonTitle) ?>"
+                        class="action primary tocart"
+                        id="product-addtocart-button" disabled>
+                    <span><?= $escaper->escapeHtml($buttonTitle) ?></span>
+                </button>
+                <?= $block->getChildHtml('', true) ?>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+
+<script type="text/x-magento-init">
+    {
+        "#product_addtocart_form": {
+            "Magento_Catalog/js/validate-product": {}
+        }
+    }
+</script>
+
+<script type="text/x-magento-init">
+        {
+            "#quantity-counter": {
+                "Magento_Ui/js/core/app": {
+                   "components": {
+                       "number-counter": {
+                           "component": "Magento_Catalog/js/qty-counter",
+                           "stockQuantityCount": "<?= $stockQuantityCount ?>"
+                       }
+                    }
+                }
+            }
+        }
+</script>
