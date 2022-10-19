@@ -1,0 +1,15 @@
+{
+    "faq_question": {
+        "column": {
+            "id": true,
+            "question": true,
+            "answer": true,
+            "status": true,
+            "position": true,
+            "updated_at": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    }
+}

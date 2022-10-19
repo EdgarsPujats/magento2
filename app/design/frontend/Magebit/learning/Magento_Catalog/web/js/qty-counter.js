@@ -15,13 +15,19 @@ define(['jquery', 'uiComponent', 'ko'], function ($, Component, ko) {
         },
 
         decrementCounter: function () {
-            if (this.quantity() - 1 < this.quantityMin) return;
+            if (this.quantity() - 1 < this.quantityMin) {
+                return;
+            }
+
             this.quantity(this.quantity() - 1);
         },
 
         incrementCounter: function () {
             let quantity = parseInt(this.quantity());
-            if (quantity + 1 > this.stockQuantityCount) return;
+            if (quantity + 1 > this.stockQuantityCount) {
+                return;
+            }
+
             this.quantity(quantity + 1);
         },
 

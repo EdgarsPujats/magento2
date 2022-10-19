@@ -1,0 +1,32 @@
+<?php if ($block->getQuestions() > 0): ?>
+
+    <ul id="accordion" class="faq-questions">
+        <?php foreach ($block->getQuestions() as $question): ?>
+            <li>
+                <div data-role="collapsible">
+                    <div data-role="trigger" class="faq-question">
+                        <?= $escaper->escapeHtml($question->getQuestion()) ?>
+                    </div>
+                </div>
+                <div data-role="content" class="faq-answer"><?= $escaper->escapeHtml($question->getAnswer()) ?></div>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+
+    <script>
+        require([
+            "jquery",
+            "accordion",
+        ], function ($) {
+            'use strict';
+            $(document).ready(function () {
+                $("#accordion").accordion({
+                    "active": [0],
+                    "collapsible": true,
+                    "openedState": "active",
+                    "multipleCollapsible": false
+                });
+            });
+        });
+    </script>
+<?php endif; ?>

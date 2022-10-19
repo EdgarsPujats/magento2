@@ -1,6 +1,9 @@
 @colorLightGray: #C2C2C2;
 @colorDarkGray: #575757;
 @colorOrange: #FF5501;
+@colorWhite: #FFF;
+@colorWhiteGray: #F9F9F9;
+@colorBlack: #333;
 
 .product.media {
     @media (max-width: (@screen__m)) {
@@ -40,7 +43,7 @@
 
 //product title
 .page-title {
-    color: #333333;
+    color: @colorBlack;
     font-size: 32px;
     font-weight: 600;
 }
@@ -65,7 +68,7 @@
 
         .add {
             text-decoration: none;
-            color: #333333;
+            color: @colorBlack;
             padding: 6px 10px;
             border: 1px solid #333333;
             font-weight: 600;
@@ -114,7 +117,7 @@
 
 // description and attributes
 .product-description {
-    background-color: #F9F9F9;
+    background-color: @colorWhiteGray;
     padding: 20px;
 
     ul {
@@ -279,8 +282,8 @@
                 .product-view-product {
                     font-size: 14px;
                     font-weight: 600;
-                    color: white;
-                    background-color: #333333;
+                    color: @colorWhite;
+                    background-color: @colorBlack;
                     padding: 6px 10px;
                     border-radius: 2px;
                     text-decoration: none;
