@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Magebit\Faq\Model\Question;
 
+use Magebit\Faq\Api\Data\QuestionInterface;
 use Magebit\Faq\Model\ResourceModel\Question\Collection;
 use Magebit\Faq\Model\ResourceModel\Question\CollectionFactory;
 use Magento\Framework\App\Request\DataPersistorInterface;
@@ -71,12 +74,12 @@ class DataProvider extends ModifierPoolDataProvider
             $this->loadedData[$question->getId()] = $question->getData();
         }
 
-        $data = $this->dataPersistor->get('faq_question');
+        $data = $this->dataPersistor->get(QuestionInterface::MAIN_TABLE);
         if (!empty($data)) {
             $question = $this->collection->getNewEmptyItem();
             $question->setData($data);
             $this->loadedData[$question->getId()] = $question->getData();
-            $this->dataPersistor->clear('faq_question');
+            $this->dataPersistor->clear(QuestionInterface::MAIN_TABLE);
         }
 
         return $this->loadedData ?? [];

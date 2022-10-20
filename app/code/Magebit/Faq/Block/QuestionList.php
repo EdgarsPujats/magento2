@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Magebit\Faq\Block;
 
+use Magebit\Faq\Api\Data\QuestionInterface;
 use Magebit\Faq\Model\QuestionRepositoryFactory;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\SortOrderBuilder;
@@ -53,8 +56,8 @@ class QuestionList extends Template
     {
         $questionModel = $this->questionRepositoryFactory->create();
 
-        $sortOrder = $this->sortOrderBuilder->setField('position')->setDirection('ASC')->create();
-        $criteria = $this->searchCriteriaBuilder->addFilter('status', 1)->setSortOrders([$sortOrder])->create();
+        $sortOrder = $this->sortOrderBuilder->setField(QuestionInterface::POSITION)->setDirection('ASC')->create();
+        $criteria = $this->searchCriteriaBuilder->addFilter(QuestionInterface::STATUS, 1)->setSortOrders([$sortOrder])->create();
 
         return $questionModel->getList($criteria)->getItems();
     }

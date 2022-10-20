@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Magebit\Faq\Model\ResourceModel\Question\Grid;
 
 use Magento\Framework\Api\ExtensibleDataInterface;
@@ -17,6 +19,9 @@ use Magento\Framework\View\Element\UiComponent\DataProvider\Document;
 use Psr\Log\LoggerInterface;
 use Zend_Db_Adapter_Abstract;
 
+/**
+ * FAQ question collection.
+ */
 class Collection extends AbstractCollection implements SearchResultInterface
 {
 
@@ -157,6 +162,9 @@ class Collection extends AbstractCollection implements SearchResultInterface
         return $this;
     }
 
+    /**
+     * @return Collection|void
+     */
     protected function _initSelect()
     {
         parent::_initSelect();

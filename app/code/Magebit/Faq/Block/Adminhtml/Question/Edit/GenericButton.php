@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Magebit\Faq\Block\Adminhtml\Question\Edit;
 
+use Magebit\Faq\Api\Data\QuestionInterface;
 use Magebit\Faq\Api\QuestionRepositoryInterface;
 use Magento\Backend\Block\Widget\Context;
 use Magento\Framework\Exception\LocalizedException;
@@ -44,7 +47,7 @@ class GenericButton
     {
         try {
             return $this->questionRepository->getById(
-                $this->context->getRequest()->getParam('id')
+                $this->context->getRequest()->getParam(QuestionInterface::QUESTION_ID)
             )->getId();
         } catch (NoSuchEntityException $e) {
         }

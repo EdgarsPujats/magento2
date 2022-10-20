@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Magebit\Faq\Ui\Component\Listing\Column;
 
+use Magebit\Faq\Api\Data\QuestionInterface;
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Escaper;
 use Magento\Framework\UrlInterface;
@@ -23,7 +26,7 @@ class QuestionActions extends Column
     /**
      * @var UrlInterface
      */
-    protected $urlBuilder;
+    protected UrlInterface $urlBuilder;
 
     /**
      * @var Escaper
@@ -55,14 +58,14 @@ class QuestionActions extends Column
     {
         if (isset($dataSource['data']['items'])) {
             foreach ($dataSource['data']['items'] as & $item) {
-                if (isset($item['id'])) {
-                    $title = $this->getEscaper()->escapeHtml($item['question']);
+                if (isset($item[QuestionInterface::QUESTION_ID])) {
+                    $title = $this->getEscaper()->escapeHtml($item[QuestionInterface::QUESTION]);
                     $item[$this->getData('name')] = [
                         'edit' => [
                             'href' => $this->urlBuilder->getUrl(
                                 static::URL_PATH_EDIT,
                                 [
-                                    'id' => $item['id']
+                                    QuestionInterface::QUESTION_ID => $item[QuestionInterface::QUESTION_ID]
                                 ]
                             ),
                             'label' => __('Edit')
@@ -71,7 +74,7 @@ class QuestionActions extends Column
                             'href' => $this->urlBuilder->getUrl(
                                 static::URL_PATH_DELETE,
                                 [
-                                    'id' => $item['id']
+                                    QuestionInterface::QUESTION_ID => $item[QuestionInterface::QUESTION_ID]
                                 ]
                             ),
                             'label' => __('Delete'),
@@ -95,7 +98,7 @@ class QuestionActions extends Column
      * @return Escaper
      * @deprecated 101.0.7
      */
-    private function getEscaper()
+    private function getEscaper(): Escaper
     {
         if (!$this->escaper) {
             $this->escaper = ObjectManager::getInstance()->get(Escaper::class);

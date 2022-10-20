@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Magebit\Faq\Block\Adminhtml\Question\Edit;
 
+use Magebit\Faq\Api\Data\QuestionInterface;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\View\Element\UiComponent\Control\ButtonProviderInterface;
 
 /**
@@ -11,6 +15,7 @@ class DeleteButton extends GenericButton implements ButtonProviderInterface
 {
     /**
      * @inheritDoc
+     * @throws LocalizedException
      */
     public function getButtonData(): array
     {
@@ -32,9 +37,10 @@ class DeleteButton extends GenericButton implements ButtonProviderInterface
      * URL to send delete requests to.
      *
      * @return string
+     * @throws LocalizedException
      */
     public function getDeleteUrl(): string
     {
-        return $this->getUrl('*/*/delete', ['id' => $this->getQuestionId()]);
+        return $this->getUrl('*/*/delete', [QuestionInterface::QUESTION_ID => $this->getQuestionId()]);
     }
 }

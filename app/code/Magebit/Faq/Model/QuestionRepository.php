@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Magebit\Faq\Model;
 
 use Exception;
@@ -121,6 +123,7 @@ class QuestionRepository implements QuestionRepositoryInterface
      * @param QuestionInterface $question
      * @return Question
      * @throws CouldNotSaveException
+     * @throws NoSuchEntityException
      */
     public function save(QuestionInterface $question): QuestionInterface
     {

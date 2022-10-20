@@ -1,21 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Magebit\Faq\Model;
 
 use Magebit\Faq\Api\Data\QuestionInterface;
 use Magebit\Faq\Model\ResourceModel\Question as QuestionResourceModel;
 use Magento\Framework\Model\AbstractModel;
 
+/**
+ * FAQ question model.
+ */
 class Question extends AbstractModel implements QuestionInterface
 {
-
-    /**#@+
-     * Question's Statuses
+    /**
+     * @return void
      */
-    const STATUS_ENABLED = 1;
-    const STATUS_DISABLED = 0;
-    /**#@-*/
-
     public function _construct()
     {
         $this->_init(QuestionResourceModel::class);

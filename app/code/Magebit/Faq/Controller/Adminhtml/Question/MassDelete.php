@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Magebit\Faq\Controller\Adminhtml\Question;
 
 use Exception;
@@ -31,11 +33,12 @@ class MassDelete extends Action implements HttpPostActionInterface
     /**
      * @var CollectionFactory
      */
-    protected $collectionFactory;
+    protected CollectionFactory $collectionFactory;
 
     /**
      * @param Context $context
      * @param Filter $filter
+     * @param CollectionFactory $collectionFactory
      */
     public function __construct(Context $context, Filter $filter, CollectionFactory $collectionFactory)
     {

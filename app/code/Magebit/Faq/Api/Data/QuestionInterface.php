@@ -19,6 +19,8 @@ interface QuestionInterface
     const STATUS = 'status';
     const POSITION = 'position';
     const UPDATED_AT = 'updated_at';
+    const STATUS_ENABLED = 1;
+    const STATUS_DISABLED = 0;
     /**#@-*/
 
     /**

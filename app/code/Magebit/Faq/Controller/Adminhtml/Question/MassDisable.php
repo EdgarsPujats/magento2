@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Magebit\Faq\Controller\Adminhtml\Question;
 
 use Exception;
+use Magebit\Faq\Api\Data\QuestionInterface;
 use Magento\Backend\App\Action;
 use Magento\Backend\Model\View\Result\Redirect;
 use Magento\Framework\App\Action\HttpPostActionInterface;
@@ -27,12 +30,12 @@ class MassDisable extends Action implements HttpPostActionInterface
     /**
      * @var Filter
      */
-    protected $filter;
+    protected Filter $filter;
 
     /**
      * @var CollectionFactory
      */
-    protected $collectionFactory;
+    protected CollectionFactory $collectionFactory;
 
     /**
      * @param Context $context
@@ -57,7 +60,7 @@ class MassDisable extends Action implements HttpPostActionInterface
         $collection = $this->filter->getCollection($this->collectionFactory->create());
 
         foreach ($collection as $item) {
-            $item->setStatus(false);
+            $item->setStatus(QuestionInterface::STATUS_DISABLED);
             $item->save();
         }
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Magebit\Faq\Controller\Adminhtml\Question;
 
 use Exception;
@@ -12,6 +14,9 @@ use Magebit\Faq\Api\Data\QuestionInterface;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Exception\LocalizedException;
 
+/**
+ * Inline FAQ question edit action.
+ */
 class InlineEdit extends Action
 {
     /**

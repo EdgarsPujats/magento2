@@ -1,10 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Magebit\Faq\Block\Adminhtml\Question\Edit;
 
 use Magento\Framework\View\Element\UiComponent\Control\ButtonProviderInterface;
 use Magento\Ui\Component\Control\Container;
 
+/**
+ * Save FAQ Question action.
+ */
 class SaveButton extends GenericButton implements ButtonProviderInterface
 {
     /**

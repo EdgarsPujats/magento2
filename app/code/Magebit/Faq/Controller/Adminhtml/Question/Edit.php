@@ -1,14 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Magebit\Faq\Controller\Adminhtml\Question;
 
-use Magebit\Faq\Model\Question;
+use Magebit\Faq\Model\QuestionFactory;
 use Magento\Backend\App\Action;
+use Magento\Backend\App\Action\Context;
 use Magento\Backend\Model\View\Result\Page;
 use Magento\Backend\Model\View\Result\Redirect;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\Registry;
 use Magento\Framework\View\Result\PageFactory;
+use Magebit\Faq\Api\Data\QuestionInterface;
 
 /**
  * Edit FAQ question action.
@@ -35,17 +39,25 @@ class Edit extends Action implements HttpGetActionInterface
     protected PageFactory $resultPageFactory;
 
     /**
-     * @param Action\Context $context
+     * @var QuestionFactory
+     */
+    private QuestionFactory $questionFactory;
+
+    /**
+     * @param Context $context
      * @param PageFactory $resultPageFactory
      * @param Registry $registry
+     * @param QuestionFactory $questionFactory
      */
     public function __construct(
         Action\Context $context,
         PageFactory    $resultPageFactory,
-        Registry       $registry
+        Registry       $registry,
+        QuestionFactory $questionFactory
     ) {
         $this->resultPageFactory = $resultPageFactory;
         $this->_coreRegistry = $registry;
+        $this->questionFactory = $questionFactory;
         parent::__construct($context);
     }
 
@@ -54,7 +66,7 @@ class Edit extends Action implements HttpGetActionInterface
      *
      * @return Page
      */
-    protected function _initAction()
+    protected function _initAction(): Page
     {
         /** @var Page $resultPage */
         $resultPage = $this->resultPageFactory->create();
@@ -74,8 +86,8 @@ class Edit extends Action implements HttpGetActionInterface
      */
     public function execute()
     {
-        $id = $this->getRequest()->getParam('id');
-        $model = $this->_objectManager->create(Question::class);
+        $id = $this->getRequest()->getParam(QuestionInterface::QUESTION_ID);
+        $model = $this->questionFactory->create();
 
         if ($id) {
             $model->load($id);
@@ -87,7 +99,7 @@ class Edit extends Action implements HttpGetActionInterface
             }
         }
 
-        $this->_coreRegistry->register('faq_question', $model);
+        $this->_coreRegistry->register(QuestionInterface::MAIN_TABLE, $model);
 
         $resultPage = $this->_initAction();
         $resultPage->addBreadcrumb(

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Magebit\Faq\Controller\Index;
 
 use Magento\Framework\App\ActionInterface;
@@ -8,10 +10,19 @@ use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\View\Result\Page;
 use Magento\Framework\View\Result\PageFactory;
 
+/**
+ * Default FAQ question action.
+ */
 class Index implements ActionInterface
 {
+    /**
+     * @var PageFactory
+     */
     protected PageFactory $resultPageFactory;
 
+    /**
+     * @param PageFactory $resultPageFactory
+     */
     public function __construct(
         PageFactory $resultPageFactory
     ) {

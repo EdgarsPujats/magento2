@@ -1,17 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Magebit\Faq\Controller\Adminhtml\Question;
 
 use Exception;
 use Magebit\Faq\Api\Data\QuestionInterface;
-use Magebit\Faq\Api\QuestionRepositoryInterface;
 use Magebit\Faq\Model\Question;
 use Magebit\Faq\Model\QuestionFactory;
+use Magebit\Faq\Model\QuestionRepositoryFactory;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Backend\Model\View\Result\Redirect;
 use Magento\Framework\App\Action\HttpPostActionInterface;
-use Magento\Framework\App\ObjectManager;
 use Magento\Framework\App\Request\DataPersistorInterface;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Exception\LocalizedException;
@@ -30,10 +31,10 @@ class Save extends Action implements HttpPostActionInterface
     /**
      * @var QuestionFactory
      */
-    private $questionFactory;
+    private mixed $questionFactory;
 
     /**
-     * @var QuestionRepositoryInterface
+     * @var QuestionRepositoryFactory
      */
     private mixed $questionRepository;
 
@@ -41,20 +42,19 @@ class Save extends Action implements HttpPostActionInterface
      * @param Context $context
      * @param Registry $coreRegistry
      * @param DataPersistorInterface $dataPersistor
-     * @param QuestionFactory|null $questionFactory
-     * @param QuestionRepositoryInterface|null $questionRepository
+     * @param QuestionFactory $questionFactory
+     * @param QuestionRepositoryFactory $questionRepositoryFactory
      */
     public function __construct(
-        Context $context,
-        Registry $coreRegistry,
-        DataPersistorInterface $dataPersistor,
-        QuestionFactory $questionFactory = null,
-        QuestionRepositoryInterface $questionRepository = null
+        Context                   $context,
+        Registry                  $coreRegistry,
+        DataPersistorInterface    $dataPersistor,
+        QuestionFactory           $questionFactory,
+        QuestionRepositoryFactory $questionRepositoryFactory
     ) {
         $this->dataPersistor = $dataPersistor;
-        $this->questionFactory = $questionFactory ?: ObjectManager::getInstance()->get(QuestionFactory::class);
-        $this->questionRepository = $questionRepository
-            ?: ObjectManager::getInstance()->get(QuestionRepositoryInterface::class);
+        $this->questionFactory = $questionFactory;
+        $this->questionRepository = $questionRepositoryFactory->create();
         parent::__construct($context, $coreRegistry);
     }
 
@@ -73,7 +73,7 @@ class Save extends Action implements HttpPostActionInterface
             /** @var QuestionInterface $model */
             $model = $this->questionFactory->create();
 
-            $id = $this->getRequest()->getParam('id');
+            $id = $this->getRequest()->getParam(QuestionInterface::QUESTION_ID);
             if ($id) {
                 try {
                     $model = $this->questionRepository->getById($id);
@@ -88,7 +88,7 @@ class Save extends Action implements HttpPostActionInterface
             try {
                 $this->questionRepository->save($model);
                 $this->messageManager->addSuccessMessage(__('You saved the question.'));
-                $this->dataPersistor->clear('faq_question');
+                $this->dataPersistor->clear(QuestionInterface::MAIN_TABLE);
                 return $this->processQuestionReturn($model, $data, $resultRedirect);
             } catch (LocalizedException $e) {
                 $this->messageManager->addErrorMessage($e->getMessage());
@@ -96,8 +96,8 @@ class Save extends Action implements HttpPostActionInterface
                 $this->messageManager->addExceptionMessage($e, __('Something went wrong while saving the question.'));
             }
 
-            $this->dataPersistor->set('faq_question', $data);
-            return $resultRedirect->setPath('*/*/edit', ['id' => $id]);
+            $this->dataPersistor->set(QuestionInterface::MAIN_TABLE, $data);
+            return $resultRedirect->setPath('*/*/edit', [QuestionInterface::QUESTION_ID => $id]);
         }
         return $resultRedirect->setPath('*/*/');
     }
@@ -114,8 +114,8 @@ class Save extends Action implements HttpPostActionInterface
     {
         $redirect = $data['back'] ?? 'close';
 
-        if ($redirect ==='continue') {
-            $resultRedirect->setPath('*/*/edit', ['id' => $model->getId()]);
+        if ($redirect === 'continue') {
+            $resultRedirect->setPath('*/*/edit', [QuestionInterface::QUESTION_ID => $model->getId()]);
         } elseif ($redirect === 'close') {
             $resultRedirect->setPath('*/*/');
         }
